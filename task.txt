@@ -2,3 +2,115 @@
 2. отсортировать массив с помощью алгоритмов: слиянием, куча, быстрая сортировка
 3. в файле first.py реализован подсчёт времени работы программы.
 4. сравнить скорость работы алгоритмов
+
+import time
+from datetime import datetime
+file = open("ai183.txt", "r")
+nums = []
+test1 = False
+test2 = False
+
+while True:                                   
+    check = file.read(1)
+    if not check:
+        break
+
+    if check == "1":
+        check = file.read(1)
+        if check == "7":
+            test1 = True
+            check = file.read(1)
+            if check == ":":
+                test2 = True
+
+    if test1 == True and test2 == True:
+        file.seek(file.tell() + 1)
+        check = file.read(1)
+        while check != "}":
+            nums.append(int(check))
+            check = file.read(1)
+        break
+
+file.close()
+
+def heap_sort(nums):
+    length = len(nums)
+
+    for i in range(length, -1, -1):
+        heap_extra(nums, length, i)
+
+    for i in range(length - 1, 0, -1):
+        nums[i], nums[0] = nums[0], nums[i]
+        heap_extra(nums, i, 0)
+    return nums
+
+def heap_extra(nums, length, i):
+    largest = i
+    L = 2 * i + 1
+    R = 2 * i + 2
+
+    if L < length and nums[i] < nums[L]:
+        largest = L
+
+    if R < length and nums[largest] < nums[R]:
+        largest = R
+
+    if largest != i:
+        nums[i], nums[largest] = nums[largest], nums[i]
+        heap_extra(nums, length, largest)
+
+def merge_sort(nums):
+    if len(nums) < 2: return nums
+
+    result, mid = [], int(len(nums) / 2)
+
+    right = merge_sort(nums[mid:])
+    left = merge_sort(nums[:mid])
+
+    while (len(left) > 0) and (len(right) > 0):
+        if left[0] > right[0]:
+            result.append(right.pop(0))
+        else:
+            result.append(left.pop(0))
+
+    result.extend(left + right)
+    return result
+
+def quick_sort(nums):
+    less = []
+    equal = []
+    greater = []
+
+    if len(nums) > 1:
+        first = nums[0]
+        for number in nums:
+            if number < first:
+                less.append(number)
+            elif number == first:
+                equal.append(number)
+            elif number > first:
+                greater.append(number)
+        return quick_sort(less) + equal + quick_sort(greater)
+    else:
+        return nums
+
+print("Heap sort:\n")
+print("Array: ", nums)
+start_time = datetime.now()
+print("\nSorted array: ", heap_sort(nums))
+end_time = datetime.now()
+print('\nDuration: {}'.format(end_time - start_time)) 
+
+print("\n\nMerge sort:\n")
+print("Array: ", nums)
+start_time = datetime.now()
+print("\nSorted array: ", merge_sort(nums))
+end_time = datetime.now()
+print('\nDuration: {}'.format(end_time - start_time))
+
+print("\n\nQuick sort:\n")
+print("Array: ", nums)
+start_time = datetime.now()
+print("\nSorted array: ", quick_sort(nums))
+end_time = datetime.now()
+print('\nDuration: {}'.format(end_time - start_time))
