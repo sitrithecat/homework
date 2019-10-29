@@ -1,4 +1,43 @@
-1. извлечь из файла массив. Ключ соответствует порядквому номеру группе.
-2. отсортировать массив с помощью алгоритмов: слиянием, куча, быстрая сортировка
-3. в файле first.py реализован подсчёт времени работы программы.
-4. сравнить скорость работы алгоритмов
+Lab1
+
+array = [745, 837, 639, 625, 379, 554, 674, 733, 581, 323, 261, 725, 109, 594, 923]
+print ("Bubble sort:\n")
+print ("Source array:")
+print (array)
+for i in range(len(array)-1):
+    for j in range(len(array)-i-1):
+        if array[j] > array[j+1]:
+            temp = array[j]                 #swap current element and next element
+            array[j] = array[j+1]
+            array[j+1] = temp
+print ("\nSorted array:")
+print (array)
+
+array1 = [552, 720, 694, 767, 938, 654, 152, 584, 185, 74, 252, 496, 10, 525, 373]
+print ("\n\nSelection sort:\n")
+print ("Source array:")
+print (array1)
+for i in range (len(array1)):
+    minIndex = i                            #the first element is the smallest
+    for j in range (i+1, len(array1)):
+        if array1[j] < array1[minIndex]:
+            minIndex = j
+    temp = array1[i]                         #swap array1[i] and array1[minIndex]
+    array1[i] = array1[minIndex]
+    array1[minIndex] = temp
+print ("\nSorted array:")
+print (array1)
+
+array2 = [831, 869, 606, 958, 258, 333, 671, 641, 769, 613, 749, 322, 845, 652, 167]
+print ("\n\nInsertion sort:\n")
+print ("Source array:")
+print (array2)
+for i in range (len(array2)):
+    insValue = array2[i]                    #save element
+    j = i - 1                               #save link on index of previous element
+    while j >= 0 and array2[j] > insValue:
+        array2[j + 1] = array2[j]
+        j = j - 1
+    array2[j + 1] = insValue
+print ("\nSorted array:")
+print (array2, "\n\n")
